@@ -24,7 +24,7 @@ def dibujar_linea():
     # Puntos
     x = (x1,0)
     y = (0,y1)
-    plt.plot(x, y, 'ro-')
+    plt.plot(x, y, 'red')
     xx = (x2,0)
     yy = (0,y2)
     plt.plot(xx, yy, 'blue')
