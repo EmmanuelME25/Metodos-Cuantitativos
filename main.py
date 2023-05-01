@@ -86,28 +86,34 @@ def calcular():
         xs=x2.tolist()
         soluciones.append(xs)
 
-        res=[]
         if mode == "Minimizar":
-            for i in soluciones:
-                res.append(z1*soluciones[i,0]+z2*soluciones[i,1])
-            idx_min = np.argmin(res)
-            min_val = res[idx_min]
-            min_comb = soluciones[idx_min]
+            resultados = []
+            for i in range(len(soluciones)):
+                x, y = soluciones[i]
+                resultado = f1 * x + f2 * y
+                resultados.append(resultado)
+            idx_min = np.argmin(resultados)
+            min_val = resultados[idx_min]
+            min_x, min_y = soluciones[idx_min]
 
             print("Valor mínimo encontrado:", min_val)
-            print("Combinación de puntos correspondiente:", min_comb)
+            print("Par de valores asociado: ({}, {})".format(min_x, min_y))
 
         if mode == "Maximizar":
-            for i in soluciones:
-                res.append(z1*soluciones[i,0]+z2*soluciones[i,1])
-            idx_man = np.argmin(res)
-            max_val = res[idx_man]
-            max_comb = soluciones[idx_man]
+            resultados = []
+            for i in range(len(soluciones)):
+                x, y = soluciones[i]
+                resultado = f1 * x + f2 * y
+                resultados.append(resultado)
+            idx_max = np.argmax(resultados)
+            max_val = resultados[idx_max]
+            max_x, max_y = soluciones[idx_max]
 
-            print("Valor maximo encontrado:", max_val)
-            print("Combinación de puntos correspondiente:", max_comb)
-        else:
-            print("Error en la selección")
+            print("Valor máximo encontrado:", max_val)
+            print("Par de valores asociado: ({}, {})".format(max_x, max_y))
+
+        #else:
+        #    print("Error en la selección")
         #dibujar_linea()
 
     else:
