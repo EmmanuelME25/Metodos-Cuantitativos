@@ -69,30 +69,46 @@ def calcular():
         A = np.array([[x1, y1], [x2, y2], [x3, y3]])
         b = np.array([c1, c2, c3])
 
-        soluciones.append(c1/x1)
-        soluciones.append(c1/y1)
-        soluciones.append(c2/x2)
-        soluciones.append(c2/y2)
-        soluciones.append(c3/x3)
-        soluciones.append(c3/y2)
+        soluciones.append([c1/x1,0])
+        soluciones.append([0,c1/y1])
+        soluciones.append([c2/x2,0])
+        soluciones.append([0,c2/y2])
+        soluciones.append([c3/x3,0])
+        soluciones.append([0,c3/y3])
+        x=np.linalg.solve([[x1,y1],[x2,y2]], [c1,c2])
+        x1=np.linalg.solve([[x1,y1],[x3,y3]], [c1,c3])
+        x2=np.linalg.solve([[x3,y3],[x2,y2]], [c3,c2])
 
-        # Calcular la descomposición en valores singulares (SVD) de la matriz de coeficientes
-        U, S, VT = np.linalg.svd(A)
+        xs=x.tolist()
+        soluciones.append(xs)
+        xs=x1.tolist()
+        soluciones.append(xs)
+        xs=x2.tolist()
+        soluciones.append(xs)
 
-        # Calcular la pseudoinversa de la matriz de coeficientes
-        pseudoinv = np.dot(VT.T, np.dot(np.linalg.inv(np.diag(S)), U.T))
+        res=[]
+        if mode == "Minimizar":
+            for i in soluciones:
+                res.append(z1*soluciones[i,0]+z2*soluciones[i,1])
+            idx_min = np.argmin(res)
+            min_val = res[idx_min]
+            min_comb = soluciones[idx_min]
 
-        # Resolver el sistema de ecuaciones lineales
-        x = np.dot(pseudoinv, b)
+            print("Valor mínimo encontrado:", min_val)
+            print("Combinación de puntos correspondiente:", min_comb)
 
-        # Calcular el espacio nulo de la matriz de coeficientes
-        null_space = np.linalg.pinv(A).T
-        particular = x
-        # Calcular todas las soluciones
-        soluciones.append(particular + np.dot(null_space, np.random.randn(null_space.shape[1])))
+        if mode == "Maximizar":
+            for i in soluciones:
+                res.append(z1*soluciones[i,0]+z2*soluciones[i,1])
+            idx_man = np.argmin(res)
+            max_val = res[idx_man]
+            max_comb = soluciones[idx_man]
 
-
-        dibujar_linea()
+            print("Valor maximo encontrado:", max_val)
+            print("Combinación de puntos correspondiente:", max_comb)
+        else:
+            print("Error en la selección")
+        #dibujar_linea()
 
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
