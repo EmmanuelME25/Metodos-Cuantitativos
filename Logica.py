@@ -24,17 +24,18 @@ def dibujar_linea():
     # Puntos
     x = (x1,0)
     y = (0,y1)
-    plt.plot(x, y, 'red')
+    plt.plot(x, y, 'red',label='Restriccion 1')
     xx = (x2,0)
     yy = (0,y2)
-    plt.plot(xx, yy, 'blue')
+    plt.plot(xx, yy, 'blue', label='Restriccion 2')
     xc = (x3,0)
     yc = (0,y3)
-    plt.plot(xc, yc, 'purple')
+    plt.plot(xc, yc, 'purple', label='Restriccion 3')
     plt.xlabel('x')
     plt.ylabel('y')
     plt.title('Metodo Grafico')
     plt.grid(True)
+    plt.legend(loc='upper right')
     plt.show()
 
 #Funcioón botón
@@ -63,8 +64,8 @@ def calcular():
         print(a1,a2,a3,x1,x2,x3,y1,y2,y3)
         
         x1_label.config(text=f"Restriccion 1: ({x1},0)")
-        x2_label.config(text=f"Restriccion 1: ({x2},0)")
-        x3_label.config(text=f"Restriccion 1: ({x3},0)")
+        x2_label.config(text=f"Restriccion 2: ({x2},0)")
+        x3_label.config(text=f"Restriccion 3: ({x3},0)")
         y1_label.config(text=f"(0,{y1})")
         y2_label.config(text=f"(0,{y2})")
         y3_label.config(text=f"(0,{y3})")
@@ -152,6 +153,9 @@ r2_label.grid(row=0,column=1)
 r2_entry = tkinter.Entry(restricciones_frame)
 r2_entry.grid(row=1,column=1)
 
+#Button
+button = tkinter.Button(frame, text="Agregar Campo")
+button.grid(row=1,column=1,sticky="news")
 
 for widget in restricciones_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
