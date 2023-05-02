@@ -17,24 +17,6 @@ c1 = None
 c2 = None
 c3 = None
 
-def dibujar_linea():
-    global x1, x2, x3, y1, y2, y3, c1, c2, c3, soluciones
-    # Puntos
-    x = (x1,0)
-    y = (0,y1)
-    plt.plot(x, y, 'red',label='Restriccion 1')
-    xx = (x2,0)
-    yy = (0,y2)
-    plt.plot(xx, yy, 'blue', label='Restriccion 2')
-    xc = (x3,0)
-    yc = (0,y3)
-    plt.plot(xc, yc, 'purple', label='Restriccion 3')
-    plt.xlabel('x')
-    plt.ylabel('y')
-    plt.title('Metodo Grafico')
-    plt.grid(True)
-    plt.legend(loc='upper right')
-    plt.show()
 
 #Funcioón botón
 def calcular():
@@ -68,53 +50,60 @@ def calcular():
 
         A = np.array([[x1, y1], [x2, y2], [x3, y3]])
         b = np.array([c1, c2, c3])
+        f = np.array([f1, f2])
 
-        soluciones.append([c1/x1,0])
-        soluciones.append([0,c1/y1])
-        soluciones.append([c2/x2,0])
-        soluciones.append([0,c2/y2])
-        soluciones.append([c3/x3,0])
-        soluciones.append([0,c3/y3])
-        x=np.linalg.solve([[x1,y1],[x2,y2]], [c1,c2])
-        x1=np.linalg.solve([[x1,y1],[x3,y3]], [c1,c3])
-        x2=np.linalg.solve([[x3,y3],[x2,y2]], [c3,c2])
+        # Encontrar los vértices del polígono
+        vertices = []
+        for i in range(len(A)):
+            for j in range(len(A)):
+                if i != j:
+                    sistema = np.array([A[i], A[j]])
+                    sol = np.linalg.solve(sistema, b[[i, j]])
+                    if (sol >= 0).all():
+                        vertices.append(sol)
+        vertices = np.array(vertices)
 
-        xs=x.tolist()
-        soluciones.append(xs)
-        xs=x1.tolist()
-        soluciones.append(xs)
-        xs=x2.tolist()
-        soluciones.append(xs)
+        # Encontrar las soluciones factibles
+        soluciones = []
+        for i in range(len(vertices)):
+            v = vertices[i]
+            if (A @ v <= b).all():
+                soluciones.append(v)
+        soluciones = np.array(soluciones)  # Convertir la lista a un arreglo de NumPy
 
+        # Encontrar la solución óptima
         if mode == "Minimizar":
-            resultados = []
-            for i in range(len(soluciones)):
-                x, y = soluciones[i]
-                resultado = f1 * x + f2 * y
-                resultados.append(resultado)
-            idx_min = np.argmin(resultados)
-            min_val = resultados[idx_min]
-            min_x, min_y = soluciones[idx_min]
+            valores = f @ soluciones.T
+            idx_opt = np.argmin(valores)
+            opt_val = valores[idx_opt]
+            opt_sol = soluciones[idx_opt]
 
-            print("Valor mínimo encontrado:", min_val)
-            print("Par de valores asociado: ({}, {})".format(min_x, min_y))
+        elif mode == "Maximizar":
+            valores = f @ soluciones.T
+            idx_opt = np.argmax(valores)
+            opt_val = valores[idx_opt]
+            opt_sol = soluciones[idx_opt]
 
-        if mode == "Maximizar":
-            resultados = []
-            for i in range(len(soluciones)):
-                x, y = soluciones[i]
-                resultado = f1 * x + f2 * y
-                resultados.append(resultado)
-            idx_max = np.argmax(resultados)
-            max_val = resultados[idx_max]
-            max_x, max_y = soluciones[idx_max]
+        # Graficar las soluciones y la solución óptima
+        plt.figure(figsize=(8, 6))
 
-            print("Valor máximo encontrado:", max_val)
-            print("Par de valores asociado: ({}, {})".format(max_x, max_y))
+        # Graficar las líneas de restricción
+        for i in range(len(A)):
+            x = np.linspace(0, b[i] / A[i, 1])
+            y = (b[i] - A[i, 0] * x) / A[i, 1]
+            plt.plot(x, y, label="Restricción {}".format(i + 1))
 
-        #else:
-        #    print("Error en la selección")
-        #dibujar_linea()
+        # Graficar los puntos críticos
+        plt.scatter(soluciones[:, 0], soluciones[:, 1], marker='o', color='r', label="Puntos críticos")
+
+        # Graficar la solución óptima
+        plt.scatter(opt_sol[0], opt_sol[1], marker='*', color='g', s=200, label="Solución óptima")
+        plt.title("Metodo grafico")
+        plt.xlabel("X")
+        plt.ylabel("Y")
+        plt.legend()
+        plt.show()
+
 
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
