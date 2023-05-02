@@ -1,10 +1,13 @@
 #  GUI
 import tkinter
 import numpy as np
+import math
 import matplotlib.pyplot as plt
 from tkinter import ttk
 from tkinter import messagebox
 
+solucionesx=[]
+solucionesy=[]
 soluciones=[]
 
 x1 = None
@@ -50,60 +53,55 @@ def calcular():
 
         A = np.array([[x1, y1], [x2, y2], [x3, y3]])
         b = np.array([c1, c2, c3])
-        f = np.array([f1, f2])
+        f = np.array([r1, r2])
 
-        # Encontrar los vértices del polígono
-        vertices = []
-        for i in range(len(A)):
-            for j in range(len(A)):
-                if i != j:
-                    sistema = np.array([A[i], A[j]])
-                    sol = np.linalg.solve(sistema, b[[i, j]])
-                    if (sol >= 0).all():
-                        vertices.append(sol)
-        vertices = np.array(vertices)
+        solucionesx.append([c1 / x1, 0])
+        solucionesy.append([0, c1 / y1])
+        solucionesx.append([c2 / x2, 0])
+        solucionesy.append([0, c2 / y2])
+        solucionesx.append([c3 / x3, 0])
+        solucionesy.append([0, c3 / y3])
+        x = np.linalg.solve([[x1, y1], [x2, y2]], [c1, c2])
+        x1 = np.linalg.solve([[x1, y1], [x3, y3]], [c1, c3])
+        x2 = np.linalg.solve([[x3, y3], [x2, y2]], [c3, c2])
 
-        # Encontrar las soluciones factibles
-        soluciones = []
-        for i in range(len(vertices)):
-            v = vertices[i]
-            if (A @ v <= b).all():
-                soluciones.append(v)
-        soluciones = np.array(soluciones)  # Convertir la lista a un arreglo de NumPy
+        xs = x.tolist()
+        soluciones.append(xs)
+        xs = x1.tolist()
+        soluciones.append(xs)
+        xs = x2.tolist()
+        soluciones.append(xs)
+        solucionesx.sort()
+        solucionesy.sort()
+        solucionesx.sort()
 
-        # Encontrar la solución óptima
+        print(solucionesy)
+        print(solucionesx)
+        print(soluciones)
         if mode == "Minimizar":
-            valores = f @ soluciones.T
-            idx_opt = np.argmin(valores)
-            opt_val = valores[idx_opt]
-            opt_sol = soluciones[idx_opt]
-
-        elif mode == "Maximizar":
-            valores = f @ soluciones.T
-            idx_opt = np.argmax(valores)
-            opt_val = valores[idx_opt]
-            opt_sol = soluciones[idx_opt]
-
-        # Graficar las soluciones y la solución óptima
-        plt.figure(figsize=(8, 6))
-
-        # Graficar las líneas de restricción
-        for i in range(len(A)):
-            x = np.linspace(0, b[i] / A[i, 1])
-            y = (b[i] - A[i, 0] * x) / A[i, 1]
-            plt.plot(x, y, label="Restricción {}".format(i + 1))
-
-        # Graficar los puntos críticos
-        plt.scatter(soluciones[:, 0], soluciones[:, 1], marker='o', color='r', label="Puntos críticos")
-
-        # Graficar la solución óptima
-        plt.scatter(opt_sol[0], opt_sol[1], marker='*', color='g', s=200, label="Solución óptima")
-        plt.title("Metodo grafico")
-        plt.xlabel("X")
-        plt.ylabel("Y")
-        plt.legend()
-        plt.show()
-
+            res=[]
+            x,y = solucionesx[2]
+            res.append(f1*x+f2*y)
+            x, y = solucionesy[2]
+            res.append(f1 * x + f2 * y)
+            x, y = soluciones[1]
+            res.append(f1 * x + f2 * y)
+            x, y = soluciones[2]
+            res.append(f1 * x + f2 * y)
+            minimo = min(res)
+            print("Valor mínimo:", minimo)
+        if mode =="Maximizar":
+            res = []
+            x, y = solucionesx[0]
+            res.append(f1 * x + f2 * y)
+            x, y = solucionesy[0]
+            res.append(f1 * x + f2 * y)
+            x, y = soluciones[1]
+            res.append(f1 * x + f2 * y)
+            x, y = soluciones[0]
+            res.append(f1 * x + f2 * y)
+            maximo = max(res)
+            print("Valor mínimo:", maximo)
 
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
