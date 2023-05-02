@@ -75,33 +75,42 @@ def calcular():
         solucionesy.sort()
         solucionesx.sort()
 
-        print(solucionesy)
-        print(solucionesx)
-        print(soluciones)
+
         if mode == "Minimizar":
             res=[]
-            x,y = solucionesx[2]
-            res.append(f1*x+f2*y)
-            x, y = solucionesy[2]
-            res.append(f1 * x + f2 * y)
-            x, y = soluciones[1]
-            res.append(f1 * x + f2 * y)
-            x, y = soluciones[2]
-            res.append(f1 * x + f2 * y)
+
+            a=[]
+            a.append(solucionesx[2])
+            a.append(solucionesy[2])
+            a.append(soluciones[2])
+            a.append(soluciones[1])
+
+            for i in range(len(a)):
+                x, y = a[i]
+                res.append(f1 * x + f2 * y)
             minimo = min(res)
+            indice_min = res.index(minimo)
+            x_min, y_min = a[indice_min]
             print("Valor mínimo:", minimo)
+            print("Coordenadas asociadas:", x_min, y_min)
+
         if mode =="Maximizar":
             res = []
-            x, y = solucionesx[0]
-            res.append(f1 * x + f2 * y)
-            x, y = solucionesy[0]
-            res.append(f1 * x + f2 * y)
-            x, y = soluciones[1]
-            res.append(f1 * x + f2 * y)
-            x, y = soluciones[0]
-            res.append(f1 * x + f2 * y)
+
+            a = []
+            a.append(solucionesx[0])
+            a.append(solucionesy[0])
+            a.append(soluciones[0])
+            a.append(soluciones[1])
+
+            for i in range(len(a)):
+                x, y = a[i]
+                res.append(f1 * x + f2 * y)
             maximo = max(res)
-            print("Valor mínimo:", maximo)
+            indice_max = res.index(maximo)
+            x_max, y_max = a[indice_max]
+            print("Valor maximo:", maximo)
+            print("Coordenadas asociadas:", x_max, y_max)
 
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
