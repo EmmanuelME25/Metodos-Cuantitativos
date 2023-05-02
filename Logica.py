@@ -40,8 +40,11 @@ def dibujar_linea():
 
 #Funcioón botón
 def calcular():
-    global x1, x2, x3, y1, y2, y3
+    
+    global x1, x2, x3, y1, y2, y3, title_combobox
     #Recuperar información del formulario
+
+    
     a1 = a1_entry.get()
     a2 = a2_entry.get()
     a3 = a3_entry.get()
@@ -51,9 +54,23 @@ def calcular():
     c1 = c1_entry.get()
     c2 = c2_entry.get()
     c3 = c3_entry.get()
+    r1 = r1_entry.get()
+    r2 = r2_entry.get()
+    mode = title_combobox.get()
     
 
-    if a1 and a2 and a3 and b1 and b2 and b3 and c1 and c2 and c3:
+    if a1 and a2 and a3 and b1 and b2 and b3 and c1 and c2 and c3 and r1 and r2 and mode:
+        x1=float(a1)
+        x2=float(a2)
+        x3=float(a3)
+        y1=float(b1)
+        y2=float(b2)
+        y3=float(b3)
+        c1=float(c1)
+        c2=float(c2)
+        c3=float(c3)
+        r1=float(r1)
+        r2=float(r2)
         #Logica Matematica
         x1 = int(a3)/int(a1)
         x2 = int(b3)/int(b1)
@@ -72,6 +89,8 @@ def calcular():
         
         # Dibujar línea
         dibujar_linea()
+        
+        
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
 
@@ -140,30 +159,34 @@ for widget in requisitos_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
 
 #Almacenar restricciones
-restricciones_frame = tkinter.LabelFrame(frame, text="Funcion Z")
-restricciones_frame.grid(row=1, column=0, sticky="news", padx=20,pady=10)
+#Ecuación objetivo
+ecuacion_frame = tkinter.LabelFrame(frame, text="Ecuación objetivo")
+ecuacion_frame.grid(row=2, column=0, sticky="news", padx=20,pady=10)
 
-r1_label = tkinter.Label(restricciones_frame, text="Valor X1")
+r1_label = tkinter.Label(ecuacion_frame, text="Valor X1")
 r1_label.grid(row=0,column=0)
-r1_entry = tkinter.Entry(restricciones_frame)
+r1_entry = tkinter.Entry(ecuacion_frame)
 r1_entry.grid(row=1,column=0)
 
-r2_label = tkinter.Label(restricciones_frame, text="Valor X2")
+r2_label = tkinter.Label(ecuacion_frame, text="Valor X2")
 r2_label.grid(row=0,column=1)
-r2_entry = tkinter.Entry(restricciones_frame)
+r2_entry = tkinter.Entry(ecuacion_frame)
 r2_entry.grid(row=1,column=1)
 
-#Button
-button = tkinter.Button(frame, text="Agregar Campo")
-button.grid(row=1,column=1,sticky="news")
+# Crear combobox
+title_label = tkinter.Label(ecuacion_frame, text="Tipo de problema")
+title_label.grid(row=0,column=2)
+title_combobox = ttk.Combobox(ecuacion_frame, values=["Maximizar", "Minimizar"])
+title_combobox.current(0)
+title_combobox.grid(row=1, column=2)
+title_combobox.grid()
 
-for widget in restricciones_frame.winfo_children():
+for widget in ecuacion_frame.winfo_children():
     widget.grid_configure(padx=10, pady=5)
 
 #Button
 button = tkinter.Button(frame, text="Calcular", command=calcular)
 button.grid(row=3,column=0,sticky="news",padx=20,pady=10)
-
 
 #Resultados Obtenidos al despejar Restricciones
 resultados_frame = tkinter.LabelFrame(frame, text="Resultados")

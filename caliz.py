@@ -1,60 +1,43 @@
-import tkinter as tk
-from tkinter import ttk, messagebox
 import matplotlib.pyplot as plt
 
-class MetodoGraficoApp:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Método GRAFICO")
+# Definir las ecuaciones de las tres restricciones
+# Por ejemplo, las siguientes son tres ecuaciones de la forma y = mx + b
+def restriccion_1(x):
+    return (1/2)*x + 3
 
-        self.create_widgets()
+def restriccion_2(x):
+    return -2*x + 10
 
-    def create_widgets(self):
-        # Frame para la entrada de datos
-        requisitos_frame = ttk.LabelFrame(self.master, text="Almacenamiento de Restricciones")
-        requisitos_frame.pack(padx=20, pady=10)
+def restriccion_3(x):
+    return -3*x + 9
 
-        # Etiquetas y campos de entrada para cada restricción
-        self.restricciones = []
-        for i in range(3):
-            restriccion_frame = ttk.Frame(requisitos_frame)
-            restriccion_frame.pack(pady=5)
+# Encontrar los puntos de intersección
+# Para encontrar los puntos de intersección, resuelva las ecuaciones simultáneamente
+# Por ejemplo, para encontrar el punto de intersección entre restriccion_1 y restriccion_2:
+# (1/2)*x + 3 = -2*x + 10
+# x = 4
+# y = (1/2)*4 + 3 = 5
 
-            x1_label = ttk.Label(restriccion_frame, text="Valor de X1:")
-            x1_label.pack(side=tk.LEFT)
-            x1_entry = ttk.Entry(restriccion_frame)
-            x1_entry.pack(side=tk.LEFT, padx=5)
-            x2_label = ttk.Label(restriccion_frame, text="Valor de X2:")
-            x2_label.pack(side=tk.LEFT)
-            x2_entry = ttk.Entry(restriccion_frame)
-            x2_entry.pack(side=tk.LEFT, padx=5)
-            c_label = ttk.Label(restriccion_frame, text="Valor de C:")
-            c_label.pack(side=tk.LEFT)
-            c_entry = ttk.Entry(restriccion_frame)
-            c_entry.pack(side=tk.LEFT, padx=5)
+x1 = 4
+y1 = 5
 
-            self.restricciones.append((x1_entry, x2_entry, c_entry))
+# Encuentre los otros puntos de intersección de manera similar
 
-        # Botones para calcular y borrar los datos
-        botones_frame = ttk.Frame(self.master)
-        botones_frame.pack(pady=10)
+x2 = (3/5)
+y2 = (9/5)
 
-        ttk.Button(botones_frame, text="Calcular", command=self.calcular).pack(side=tk.LEFT, padx=5)
-        ttk.Button(botones_frame, text="Borrar", command=self.borrar_datos).pack(side=tk.LEFT)
+x3 = 2
+y3 = -1
 
-        # Labels para mostrar los resultados y el gráfico
-        self.x1_label = ttk.Label(self.master, text="")
-        self.x1_label.pack()
-        self.x2_label = ttk.Label(self.master, text="")
-        self.x2_label.pack()
-        self.x3_label = ttk.Label(self.master, text="")
-        self.x3_label.pack()
-        self.y1_label = ttk.Label(self.master, text="")
-        self.y1_label.pack()
-        self.y2_label = ttk.Label(self.master, text="")
-        self.y2_label.pack()
-        self.y3_label = ttk.Label(self.master, text="")
-        self.y3_label.pack()
+# Graficar los puntos de intersección
+plt.scatter(x1, y1, color='red')
+plt.scatter(x2, y2, color='blue')
+plt.scatter(x3, y3, color='green')
 
-        self.fig, self.ax = plt.subplots()
-        self.ax.set_xlabel('x')
+# Configurar la gráfica
+plt.title('Puntos de intersección de 3 restricciones')
+plt.xlabel('Eje x')
+plt.ylabel('Eje y')
+
+# Mostrar la gráfica
+plt.show()
