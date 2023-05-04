@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from math import *
+from numpy import *
+
 
 x1=2
 x2=4
@@ -16,15 +19,11 @@ solucionesx=[]
 solucionesy=[]
 soluciones=[]
 
-def grafica(x,y,A):
-
-    # size and color:
-
-    # plot
-    fig, ax = plt.subplots()
-    ax.scatter(x, y)
-    plt.grid()
-    plt.show()
+plt.plot([c1 / y1, 0], [0, c1 / x1], color='blue', linewidth=1, linestyle="-")
+plt.plot([c2 / y2, 0], [0, c2 / x2], color='orange', linewidth=1, linestyle="-")
+plt.plot([c3 / y3, 0], [0, c3 / x3], color='green', linewidth=1, linestyle="-")
+plt.grid()
+plt.show()
 
 A = np.array([[x1, y1], [x2, y2], [x3, y3]])
 b = np.array([c1, c2, c3])
@@ -79,7 +78,6 @@ if mode == "Minimizar":
 
     print("Resultado:", minimo)
     print("Coordenadas:", x_min,",", y_min)
-    grafica(x_min,y_min,A)
 
 if mode =="Maximizar":
     res = []
@@ -106,4 +104,6 @@ if mode =="Maximizar":
 
     print("Resultado:", maximo)
     print("Coordenadas:", x_max, ",", y_max)
-    grafica(x_max,y_max,A)
+
+
+
