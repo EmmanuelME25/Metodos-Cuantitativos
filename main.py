@@ -20,23 +20,6 @@ c2 = None
 c3 = None
 
 def plot_polygon(A, b):
-    x = np.linspace(0, np.max(b), 1000)
-    fig, ax = plt.subplots(figsize=(6, 6))
-    for i in range(A.shape[0]):
-        if A[i,1] == 0:
-            ax.axvline(x=b[i]/A[i,0], lw=2, color='k', ls='--')
-        elif A[i,0] == 0:
-            ax.axhline(y=b[i]/A[i,1], lw=2, color='k', ls='--')
-        else:
-            y = (b[i]-A[i,0]*x)/A[i,1]
-            ax.plot(x, y, lw=2, color='k', ls='--')
-    ax.set_xlabel('x1', fontsize=14)
-    ax.set_ylabel('x2', fontsize=14)
-    ax.set_xlim(0, np.max(b))
-    ax.set_ylim(0, np.max(b))
-    ax.grid(True, lw=1, ls='--', alpha=0.5)
-    plt.show()
-
     # Generate random constraints and critical points
     A = np.random.randint(low=1, high=5, size=(3,2))
     b = np.random.randint(low=10, high=20, size=3)
@@ -70,15 +53,8 @@ def plot_polygon(A, b):
         vertices.append(x[:-m].tolist())
     vertices = np.array(vertices)
 
-    
-    # Plot the constraints and critical points
-    plot_polygon(A, b)
-    plt.scatter(vertices[:,0], vertices[:,1], s=50, c='r')
-    plt.xlabel('x1', fontsize=14)
-    plt.ylabel('x2', fontsize=14)
-    plt.title('Simplex Method with Three Constraints', fontsize=16)
-    plt.show()
 #Funcioón botón
+
 def calcular():
     global x1, x2, x3, y1, y2, y3, c1, c2, c3, soluciones
     #Recuperar información del formulario
@@ -147,36 +123,83 @@ def calcular():
         solucionesy.sort()
         solucionesx.sort()
 
-        print(solucionesy)
-        print(solucionesx)
-        print(soluciones)
         if mode == "Minimizar":
-            res=[]
-            x,y = solucionesx[2]
-            res.append(r1*x+r2*y)
-            x, y = solucionesy[2]
-            res.append(r1 * x + r2 * y)
-            x, y = soluciones[1]
-            res.append(r1 * x + r2 * y)
-            x, y = soluciones[2]
-            res.append(r1 * x + r2 * y)
-            minimo = min(res)
-            print("Valor mínimo:", minimo)
-            x4_label.config(text=f"Valor mínimo: {minimo}")
-        if mode =="Maximizar":
             res = []
-            x, y = solucionesx[0]
-            res.append(r1 * x + r2 * y)
-            x, y = solucionesy[0]
-            res.append(r1 * x + r2 * y)
-            x, y = soluciones[1]
-            res.append(r1 * x + r2 * y)
-            x, y = soluciones[0]
-            res.append(r1 * x + r2 * y)
-            maximo = max(res)
-            print("Valor mínimo:", maximo)
-            x5_label.config(text=f"Valor mínimo: {maximo}")
-        
+            a = []
+            a1 = []
+
+            a.append(solucionesx[2])
+            a.append(solucionesy[2])
+            a.append(soluciones[0])
+            a.append(soluciones[1])
+            a.append(soluciones[2])
+
+            for i in range(len(a)):
+                x, y = a[i]
+                res.append(r1 * x + r2 * y)
+
+            res.sort()
+            minimo = res[1]
+
+            for i in range(len(a)):
+                x, y = a[i]
+                if (r1 * x + r2 * y) == res[1]:
+                    x_min, y_min = x, y
+
+            print("Resultado:", minimo)
+            print("Coordenadas:", x_min, ",", y_min)
+            x4_label.config(text=f"Tras el analisis de datos se obtiene que en el punto "
+                                 f"({x_min},{y_min}), se obtiene un valor minimo de {minimo}")
+
+
+        if mode == "Maximizar":
+            res = []
+            a = []
+            a1 = []
+
+            a.append(solucionesx[0])
+            a.append(solucionesy[0])
+            a.append(soluciones[0])
+            a.append(soluciones[1])
+            a.append(soluciones[2])
+
+            for i in range(len(a)):
+                x, y = a[i]
+                res.append(r1 * x + r2 * y)
+
+            res.sort()
+            maximo = res[3]
+
+            for i in range(len(a)):
+                x, y = a[i]
+                if (r1 * x + r2 * y) == res[3]:
+                    x_max, y_max = x, y
+
+            print("Resultado:", maximo)
+            print("Coordenadas:", x_max, ",", y_max)
+            x5_label.config(text=f"Tras el analisis de datos se obtiene que en el punto "
+                                 f"({x_max},{y_max}), se obtiene un valor maximo de {maximo}")
+            fig = plt.figure()
+            fig.clf()
+            ax = fig.subplots(1, 1)
+
+            ax.plot(recx1, recy1, label='Primera Restriccion')
+            ax.plot(recx2, recy2, label='Segunda Restriccion')
+            ax.plot(recx3, recy3, label='Tercera Restriccion')
+            ax.scatter(x, y)
+            ax.set_xlabel('x')
+            ax.set_ylabel('y')
+
+            ax.legend()
+            fig.tight_layout()
+
+            plt.plot([recx1, 0], [0, recy1], color='blue', linewidth=1, linestyle="-")
+            plt.plot([recx2, 0], [0, recy2], color='orange', linewidth=1, linestyle="-")
+            plt.plot([recx3, 0], [0, recy3], color='green', linewidth=1, linestyle="-")
+
+            plt.grid()
+            plt.show()
+
         plot_polygon(A,b)
 
     else:
