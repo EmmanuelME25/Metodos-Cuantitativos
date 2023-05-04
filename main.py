@@ -1,7 +1,6 @@
 #  GUI
 import tkinter
 import numpy as np
-import math
 import matplotlib.pyplot as plt
 from tkinter import ttk
 from tkinter import messagebox
@@ -73,7 +72,7 @@ def calcular():
         soluciones.append(xs)
         solucionesx.sort()
         solucionesy.sort()
-        solucionesx.sort()
+        soluciones.sort()
 
 
         if mode == "Minimizar":
@@ -98,10 +97,15 @@ def calcular():
             res = []
 
             a = []
+            a1=[]
             a.append(solucionesx[0])
             a.append(solucionesy[0])
-            a.append(soluciones[0])
-            a.append(soluciones[1])
+
+            a1.append(soluciones)
+
+            for i in range(len(a1)):
+
+
 
             for i in range(len(a)):
                 x, y = a[i]
