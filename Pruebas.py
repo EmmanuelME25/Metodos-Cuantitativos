@@ -17,6 +17,7 @@ solucionesy=[]
 soluciones=[]
 
 
+
 A = np.array([[x1, y1], [x2, y2], [x3, y3]])
 b = np.array([c1, c2, c3])
 f = np.array([f1, f2])
@@ -76,8 +77,8 @@ if mode =="Maximizar":
     a = []
     a1 = []
 
-    a.append(solucionesx[2])
-    a.append(solucionesy[2])
+    a.append(solucionesx[0])
+    a.append(solucionesy[0])
     a.append(soluciones[0])
     a.append(soluciones[1])
     a.append(soluciones[2])
