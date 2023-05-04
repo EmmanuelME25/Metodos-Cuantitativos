@@ -97,15 +97,10 @@ def calcular():
             res = []
 
             a = []
-            a1=[]
             a.append(solucionesx[0])
             a.append(solucionesy[0])
-
-            a1.append(soluciones)
-
-            for i in range(len(a1)):
-
-
+            a.append(soluciones[0])
+            a.append(soluciones[1])
 
             for i in range(len(a)):
                 x, y = a[i]

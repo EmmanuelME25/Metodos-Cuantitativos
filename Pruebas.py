@@ -40,48 +40,53 @@ xs = x2.tolist()
 soluciones.append(xs)
 solucionesx.sort()
 solucionesy.sort()
-soluciones.sort()
 
 
 if mode == "Minimizar":
     res=[]
-
     a=[]
+    a1=[]
+
     a.append(solucionesx[2])
     a.append(solucionesy[2])
-    a.append(soluciones[2])
-    a.append(soluciones[1])
+    a1.append(soluciones)
+    print(a1)
+    for i in range(len(a1)):
+        x,y = a1[i]
+        res.append(f1 * x + f2 * y)
 
-for i in range(len(a)):
-    x, y = a[i]
-    res.append(f1 * x + f2 * y)
-minimo = min(res)
-indice_min = res.index(minimo)
-x_min, y_min = a[indice_min]
-print("Valor mínimo:", minimo)
-print("Coordenadas asociadas:", x_min, y_min)
+    for i in range(len(a)):
+        x, y = a[i]
+        res.append(f1 * x + f2 * y)
+
+    res.sort()
+    minimo = res[1]
+    indice_min = res.index(minimo)
+    x_min, y_min = a[indice_min]
+    print("Valor mínimo:", minimo)
+    print("Coordenadas asociadas:", x_min, y_min)
 
 if mode =="Maximizar":
     res = []
-
     a = []
-    a1=[]
+    a1 = []
+
     a.append(solucionesx[0])
     a.append(solucionesy[0])
-
     a1.append(soluciones)
+    print(a1)
+    for i in range(len(a1)):
+        x, y = a1[i]
+        res.append(f1 * x + f2 * y)
 
-for i in range(len(a1)):
-    a
+    for i in range(len(a)):
+        x, y = a[i]
+        res.append(f1 * x + f2 * y)
 
-
-
-for i in range(len(a)):
-    x, y = a[i]
-    res.append(f1 * x + f2 * y)
-
-maximo = max(res)
-indice_max = res.index(maximo)
-x_max, y_max = a[indice_max]
-print("Valor maximo:", maximo)
-print("Coordenadas asociadas:", x_max, y_max)
+    res.sort()
+    minimo = res[1]
+    maximo = max(res)
+    indice_max = res.index(maximo)
+    x_max, y_max = a[indice_max]
+    print("Valor maximo:", maximo)
+    print("Coordenadas asociadas:", x_max, y_max)
