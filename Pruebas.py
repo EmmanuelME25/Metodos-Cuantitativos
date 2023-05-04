@@ -1,27 +1,35 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-x1=3
-x2=1
-x3=3
-y1=1
-y2=5
-y3=2
-c1=15
+x1=2
+x2=4
+x3=10
+y1=5
+y2=1
+y3=5
+c1=40
 c2=20
-c3=24
-f1=120
-f2=60
+c3=60
+f1=24
+f2=8
 solucionesx=[]
 solucionesy=[]
 soluciones=[]
 
+def grafica(x,y,A):
 
+    # size and color:
+
+    # plot
+    fig, ax = plt.subplots()
+    ax.scatter(x, y)
+    plt.grid()
+    plt.show()
 
 A = np.array([[x1, y1], [x2, y2], [x3, y3]])
 b = np.array([c1, c2, c3])
 f = np.array([f1, f2])
-mode ="Minimizar"
+mode ="Maximizar"
 
 solucionesx.append([c1 / x1, 0])
 solucionesy.append([0, c1 / y1])
@@ -71,6 +79,7 @@ if mode == "Minimizar":
 
     print("Resultado:", minimo)
     print("Coordenadas:", x_min,",", y_min)
+    grafica(x_min,y_min,A)
 
 if mode =="Maximizar":
     res = []
@@ -88,12 +97,13 @@ if mode =="Maximizar":
         res.append(f1 * x + f2 * y)
 
     res.sort()
-    maximo = res[4]
+    maximo = res[3]
 
     for i in range(len(a)):
         x, y = a[i]
-        if (f1 * x + f2 * y) == res[4]:
+        if (f1 * x + f2 * y) == res[3]:
             x_max, y_max = x, y
 
     print("Resultado:", maximo)
     print("Coordenadas:", x_max, ",", y_max)
+    grafica(x_max,y_max,A)
