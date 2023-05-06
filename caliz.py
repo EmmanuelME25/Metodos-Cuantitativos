@@ -18,43 +18,6 @@ y3 = None
 c1 = None
 c2 = None
 c3 = None
-
-
-def plot_polygon(A, b):
-    # Generate random constraints and critical points
-    A = np.random.randint(low=1, high=5, size=(3, 2))
-    b = np.random.randint(low=10, high=20, size=3)
-    f = np.random.randint(low=-5, high=5, size=2)
-    mode = "Minimizar"
-
-    # Apply the simplex algorithm
-    n, m = A.shape
-    b = b.reshape(n, 1)
-    c = np.concatenate([f, np.zeros(n)])
-    T = np.concatenate([np.concatenate([A, np.eye(n)], axis=1), np.concatenate([-c.reshape(1, n + m)], axis=0)], axis=0)
-    idx = np.arange(n, n + m)
-    res = []
-    vertices = []
-    while True:
-        x = np.linalg.solve(T[:-1, idx], b)
-        res.append(np.dot(f, x))
-        if np.all(T[-1, :-1] >= 0):
-            break
-        j0 = np.argmin(T[-1, :-1]) if mode == "Minimizar" else np.argmax(T[-1, :-1])
-        if np.all(T[:-1, j0] <= 0):
-            break
-        ratios = np.divide(T[:-1, -1], T[:-1, j0])
-        ratios[ratios < 0] = np.inf
-        j = np.argmin(ratios)
-        T[j, :] = T[j, :] / T[j, j0]
-        idx[j] = j0
-        for i in range(n + 1):
-            if i != j:
-                T[i, :] -= T[i, j0] * T[j, :]
-        vertices.append(x[:-m].tolist())
-    vertices = np.array(vertices)
-
-
 # Funcioón botón
 
 def calcular():
@@ -200,8 +163,6 @@ def calcular():
             plt.grid()
             plt.show()
 
-        plot_polygon(A, b)
-
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
 
@@ -246,7 +207,7 @@ b3_label = tkinter.Label(requisitos_frame, text="Valor de C")
 b3_label.grid(row=2, column=2)
 b3_entry = tkinter.Entry(requisitos_frame)
 b3_entry.grid(row=3, column=2)
-# Cuarta Restriccion
+# tercera Restriccion
 c1_label = tkinter.Label(requisitos_frame, text="Valor de X1")
 c1_label.grid(row=4, column=0)
 c1_entry = tkinter.Entry(requisitos_frame)

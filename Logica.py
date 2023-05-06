@@ -200,8 +200,6 @@ def calcular():
             plt.grid()
             plt.show()
 
-        plot_polygon(A, b)
-
     else:
         tkinter.messagebox.showwarning(title="Error", message="Faltan datos")
 
@@ -246,7 +244,7 @@ b3_label = tkinter.Label(requisitos_frame, text="Valor de C")
 b3_label.grid(row=2, column=2)
 b3_entry = tkinter.Entry(requisitos_frame)
 b3_entry.grid(row=3, column=2)
-# Cuarta Restriccion
+# Tercera Restriccion
 c1_label = tkinter.Label(requisitos_frame, text="Valor de X1")
 c1_label.grid(row=4, column=0)
 c1_entry = tkinter.Entry(requisitos_frame)
